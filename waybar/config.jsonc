@@ -27,6 +27,7 @@
         "mpd",
         "mpris",
         "idle_inhibitor",
+        "bluetooth",
         "pulseaudio",
         "network",
         "power-profiles-daemon",
@@ -258,7 +259,17 @@
         "tooltip-format": "{ifname} via {gwaddr} ",
         "format-linked": "{ifname} (No IP) ",
         "format-disconnected": "Disconnected ⚠",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+        "format-alt": "{ifname}: {ipaddr}/{cidr}",
+        "on-click": "~/.config/waybar/scripts/launcherWifi.sh"
+    },
+    "bluetooth": {
+        "format": "",
+        "format-disabled": "󰂲",
+        "format-connected": "󰂱",
+        "tooltip-format-connected": "Dispositivos conectados: {num_connections}\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}",
+        "tooltip-format-enumerate-connected-battery": "{device_alias}\t| Batería: {device_battery_percentage}%",
+        "on-click": "blueberry"
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
