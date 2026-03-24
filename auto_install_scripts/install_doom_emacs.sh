@@ -6,7 +6,7 @@ echo "🚀 Iniciando instalación de Emacs + Doom Emacs..."
 
 # ── Directorios ───────────────────────────────────────────────
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-DOOM_CONFIG_SRC="$SCRIPT_DIR/doom" # carpeta doom dentro del repo
+DOOM_CONFIG_SRC="$SCRIPT_DIR/../doom" # carpeta doom dentro del repo
 DOOM_CONFIG_DST="$HOME/.config/doom"
 
 # ── 1. Instalar dependencias ──────────────────────────────────
@@ -17,7 +17,6 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     exit 1
   fi
   brew install --quiet \
-    emacs-plus@29 \
     git ripgrep fd \
     node sqlite3 \
     aspell \
@@ -30,6 +29,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     rust-analyzer \
     haskell-language-server
   brew install --quiet llvm # clangd
+  brew install --cask emacs-app font-jetbrains-mono-nerd-font
 
 elif [[ "$OSTYPE" == "linux-gnu"* ]] && command -v pacman &>/dev/null; then
   echo "🐧 Arch Linux detectado. Usando pacman..."
