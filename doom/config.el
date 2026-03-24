@@ -41,10 +41,10 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (after! org
-  (setq org-directory "~/OrgVault/")
-  (setq org-agenda-files "~/OrgVault/agenda.org")
+  (setq org-directory "~/Org")
+  (setq org-agenda-files '("~/Org/todo.org" "~/Org/agenda.org"))
   (setq org-log-done 'time)
-)
+  )
 
 (setq org-agenda-include-diary t)
 
@@ -147,3 +147,24 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+;;Python configs
+(global-font-lock-mode 1)
+
+;; Forzar la actualización de la sintaxis
+(setq font-lock-support-mode 'font-lock-cache-mode)
+
+;; LSP con hover documentation y autocompletado mejorado
+(after! lsp-mode
+  (setq lsp-ui-doc-enable t)
+  (setq lsp-ui-doc-show-with-cursor t)
+  (setq lsp-ui-doc-position 'top)
+  (setq lsp-ui-sideline-enable t)
+  (setq lsp-signature-auto-activate t)
+  (setq lsp-completion-show-detail t)
+  (setq lsp-completion-show-label t))
+
+;; Corfu (tu completion engine) con más info
+(after! corfu
+  (setq corfu-preview-current t)
+  (setq corfu-preselect 'prompt))
