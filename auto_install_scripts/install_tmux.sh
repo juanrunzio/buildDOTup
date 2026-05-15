@@ -116,6 +116,9 @@ bind -n M-Down switch-client -n
 
 bind q source-file ~/.config/tmux/tmux.conf \; display "Config recargada ✓"
 
+# ── Popup flotante (como Zellij) ──────────────────────────────
+bind p run-shell "~/.config/tmux/scripts/popup.sh"
+
 # ── Status bar ────────────────────────────────────────────────
 set -g status-position bottom
 set -g status-interval 5
@@ -151,13 +154,27 @@ set -g @continuum-save-interval '10'
 run '~/.tmux/plugins/tpm/tpm'
 TMUXCONF
 
-# ── 6. Symlink para que tmux encuentre el config ──────────────
+# ── 6. Crear script de popup flotante ──────────────────────────
+echo "🪟 Creando script de popup flotante..."
+mkdir -p "$HOME/.config/tmux/scripts"
+cat <<'POPUPEOF' >"$HOME/.config/tmux/scripts/popup.sh"
+#!/bin/bash
+if [ "$(tmux display-message -p -F "#{session_name}")" = "popup" ]; then
+  tmux detach-client
+else
+  tmux popup -h 70% -w 70% -E "tmux attach -t popup || tmux new -s popup" &
+fi
+POPUPEOF
+chmod +x "$HOME/.config/tmux/scripts/popup.sh"
+echo "   -> popup.sh creado."
+
+# ── 7. Symlink para que tmux encuentre el config ──────────────
 if [ ! -f "$HOME/.tmux.conf" ] && [ ! -L "$HOME/.tmux.conf" ]; then
   ln -s "$HOME/.config/tmux/tmux.conf" "$HOME/.tmux.conf"
   echo "   -> Symlink ~/.tmux.conf creado."
 fi
 
-# ── 7. Instalar plugins ───────────────────────────────────────
+# ── 8. Instalar plugins ───────────────────────────────────────
 echo "📦 Instalando plugins..."
 "$HOME/.tmux/plugins/tpm/bin/install_plugins" &>/dev/null || true
 echo "   -> Plugins instalados."
@@ -177,3 +194,4 @@ echo "   Alt-1..9             → ir a ventana"
 echo "   Ctrl-Space q         → recargar config"
 echo "   Ctrl-Space Ctrl-s    → guardar sesión (resurrect)"
 echo "   Ctrl-Space Ctrl-r    → restaurar sesión (resurrect)"
+echo "   Ctrl-Space p         → popup flotante (como Zellij)"
